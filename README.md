@@ -11,9 +11,15 @@
 
 # Bright Downloader
 
-A free, open-source (MIT) download manager for Windows that downloads the way
-classic accelerators do: one file over many connections at once, with
-**dynamic segmentation** so every connection stays busy until the last byte.
+**Bright Downloader** is a fast, free and open-source download manager for
+Windows. It splits each file across up to 32 connections and keeps every one of
+them busy until the last byte, so big downloads finish sooner. Pause any time
+and pick up where you left off, even after a crash or a reboot.
+
+It also catches downloads and videos straight from your browser, saves streams
+and videos from 1,000+ sites in the quality you choose, and handles the
+routine work for you: queues, a scheduler, speed limits, checksums and
+automatic retries. No ads, no account, no tracking.
 
 ## Screenshots
 
@@ -103,7 +109,7 @@ classic accelerators do: one file over many connections at once, with
 - DRM-protected video (Netflix-style: Widevine, PlayReady, FairPlay,
   SAMPLE-AES) cannot be downloaded.
 - **Progress window** per download (double-click a running download, or turn
-  it on for every download in Options → General), like IDM's.
+  it on for every download in Options → General).
 - **Languages**: English, Arabic (right-to-left), French and Spanish
   (Options → General → Language; "Same as Windows" by default). Error
   messages that come from servers or helper programs stay in English.
@@ -121,7 +127,7 @@ classic accelerators do: one file over many connections at once, with
   *Download with Bright Downloader* menu entry.
 - **Video detection in the browser**: the extension notices videos, HLS and
   DASH streams a page plays and shows a *Download this video* button on the
-  video (like IDM), with a choice of quality. For players that hide their
+  video, with a choice of quality. For players that hide their
   streams (YouTube and similar) it offers *From this page*, which goes
   through yt-dlp. The toolbar badge counts what was found and the popup
   lists it. The extension is translated into the same four languages.
@@ -159,8 +165,8 @@ brightdl.exe <url> [--dir <folder>] [--name <file>] [--queue <name>] [--later] [
 ```
 
 Without `--silent` the Add dialog opens with the link filled in; with it the
-download is added straight away (`--later` adds it without starting). IDM's
-switches also work: `/d <url> /p <folder> /f <file> /a /n`. If Bright Downloader is
+download is added straight away (`--later` adds it without starting). The
+short switches `/d <url> /p <folder> /f <file> /a /n` work too. If Bright Downloader is
 already running, the link goes to the running instance.
 
 ## Installing the browser extension
