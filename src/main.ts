@@ -168,6 +168,7 @@ interface AppInfo {
   version: string;
   repo: string;
   site: string;
+  portable: boolean;
 }
 
 interface HistoryEntry {
@@ -783,6 +784,11 @@ function helpMenu() {
   ]);
 }
 
+const UPDATE_HOW =
+  "Updating takes about a minute: Bright Downloader downloads the new version, checks it, closes, installs it and opens again by itself. Running downloads continue afterwards.";
+const PORTABLE_UPDATE_HOW =
+  "This is the portable version: download the new portable zip from the release page and unpack it over this folder. Your settings and downloads in the data folder are kept.";
+
 async function openAbout() {
   const info = await invoke<AppInfo>("app_info");
   $("about-version").textContent = `Version ${info.version}`;
@@ -824,18 +830,20 @@ function renderNotes(box: HTMLElement, markdown: string) {
 
 let updating = false;
 
-function showUpdate(info: UpdateInfo) {
+async function showUpdate(info: UpdateInfo) {
   const dlg = $<HTMLDialogElement>("dlg-update");
   if (dlg.open || updating) return;
+  const { portable } = await invoke<AppInfo>("app_info");
   document.querySelectorAll<HTMLDialogElement>("dialog[open]").forEach((d) => d.close());
   $("upd-text").textContent = `Bright Downloader ${info.version} is ready to install. You have ${info.current}.`;
   renderNotes($("upd-notes"), info.notes);
   $("upd-progress").hidden = true;
   $("upd-error").textContent = "";
   $("upd-how").hidden = false;
+  $("upd-how").textContent = portable ? PORTABLE_UPDATE_HOW : UPDATE_HOW;
   const buttons = ["upd-skip", "upd-later", "upd-go"].map((id) => $<HTMLButtonElement>(id));
   buttons.forEach((b) => (b.disabled = false));
-  $("upd-go").textContent = "Update now";
+  $("upd-go").textContent = portable ? "Download" : "Update now";
   $("upd-later").onclick = () => dlg.close();
   $("upd-skip").onclick = () => {
     invoke("skip_update", { version: info.version });
@@ -846,6 +854,11 @@ function showUpdate(info: UpdateInfo) {
   dlg.oncancel = (e) => updating && e.preventDefault();
   $("form-update").onsubmit = async (e) => {
     e.preventDefault();
+    if (portable) {
+      invoke("open_help", { page: "releases" });
+      dlg.close();
+      return;
+    }
     updating = true;
     buttons.forEach((b) => (b.disabled = true));
     $("upd-how").hidden = true;

@@ -401,11 +401,19 @@ struct AppInfo {
     version: &'static str,
     repo: &'static str,
     site: &'static str,
+    portable: bool,
 }
 
 #[tauri::command]
 fn app_info() -> AppInfo {
-    AppInfo { version: updater::current_version(), repo: updater::REPO_URL, site: updater::SITE_URL }
+    AppInfo { version: updater::current_version(), repo: updater::REPO_URL, site: updater::SITE_URL, portable: portable_data_dir().is_some() }
+}
+
+/// The portable copy ships a `portable.txt` next to the program; it then keeps
+/// its settings, downloads list and tools in a `data` folder beside it.
+fn portable_data_dir() -> Option<PathBuf> {
+    let dir = std::env::current_exe().ok()?.parent()?.to_path_buf();
+    dir.join("portable.txt").is_file().then(|| dir.join("data"))
 }
 
 /// Open one of the project's pages; only these fixed addresses are allowed.
@@ -438,6 +446,9 @@ fn skip_update(mgr: Mgr, version: String) {
 /// The update is looked up again here so only what GitHub lists is installed.
 #[tauri::command]
 async fn install_update(app: AppHandle, mgr: Mgr<'_>, version: String) -> Result<(), String> {
+    if portable_data_dir().is_some() {
+        return Err("the portable version is updated by downloading the new portable zip".into());
+    }
     let engine = mgr.engine();
     let info = updater::check(&engine).await?.filter(|i| i.version == version).ok_or("this update is no longer available")?;
     let installer = updater::download(&engine, mgr.data_dir(), &info, |p| {
@@ -853,8 +864,14 @@ pub fn run() {
         .setup(|app| {
             #[cfg(windows)]
             register_app_id(app.handle());
-            let data_dir = app.path().app_data_dir()?;
-            migrate_from_openbolt(app.handle(), &data_dir);
+            let data_dir = match portable_data_dir() {
+                Some(dir) => dir,
+                None => {
+                    let dir = app.path().app_data_dir()?;
+                    migrate_from_openbolt(app.handle(), &dir);
+                    dir
+                }
+            };
             dm_engine::hls::set_tools_dir(tools::dir(&data_dir));
             app.manage(Pending::default());
             let events = Arc::new(WindowEvents { app: app.handle().clone(), windows_opened: Mutex::new(HashSet::new()) });

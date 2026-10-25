@@ -1,5 +1,6 @@
 # Push a tag such as v0.2.0 (it must match `version` in Cargo.toml) to build
-# the Windows installer and create a DRAFT release with it and SHA256SUMS.txt.
+# the Windows installer and portable zip and create a DRAFT release with them
+# and SHA256SUMS.txt.
 # Edit the notes if you like, then press "Publish release": only then do
 # installed copies see the update and offer it to their users.
 name: Release
@@ -41,15 +42,20 @@ jobs:
       - run: cargo test --workspace
       - run: pnpm tauri build --bundles nsis
 
-      # GitHub turns spaces in asset names into dots, so give the installer a
-      # name without spaces; SHA256SUMS.txt must list the name users download.
-      - name: Name the installer and write its checksum
+      # GitHub turns spaces in asset names into dots, so give the files names
+      # without spaces; SHA256SUMS.txt must list the names users download.
+      # The portable zip is the program plus portable.txt, which makes it keep
+      # its data in a "data" folder next to it.
+      - name: Name the installer, build the portable zip and write checksums
         shell: bash
         run: |
-          mkdir out
+          mkdir out portable
           cp target/release/bundle/nsis/*-setup.exe "out/Bright-Downloader_${VERSION}_x64-setup.exe"
+          cp target/release/brightdl.exe portable/
+          cp src-tauri/portable.txt portable/
+          (cd portable && 7z a -tzip "../out/Bright-Downloader_${VERSION}_x64-portable.zip" brightdl.exe portable.txt)
           cd out
-          sha256sum *-setup.exe > SHA256SUMS.txt
+          sha256sum *-setup.exe *-portable.zip > SHA256SUMS.txt
           cat SHA256SUMS.txt
 
       - name: Create the draft release

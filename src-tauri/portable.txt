@@ -1,0 +1,8 @@
+Bright Downloader portable
+
+While this file is next to brightdl.exe, settings, the downloads list and
+helper tools are kept in the "data" folder here instead of AppData.
+
+To update, unpack the new portable zip over this folder.
+
+Requires Windows 10 or 11 (64-bit).
