@@ -1,5 +1,5 @@
 # Publishes the landing page in site/ to
-# https://suleiman700.github.io/Bright-Downloader/
+# https://suleiman700.github.io/bright-downloader/
 # One-time setup: repository Settings → Pages → Source: "GitHub Actions".
 name: Website
 

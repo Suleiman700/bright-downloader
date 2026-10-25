@@ -1,13 +1,37 @@
-# Bright Downloader
+<p align="center">
+  <img src="site/images/hero.png" alt="Bright Downloader: downloads that finish faster" width="100%" />
+</p>
 
-**[Download](https://github.com/Suleiman700/Bright-Downloader/releases/latest)** ·
-**[Website](https://suleiman700.github.io/Bright-Downloader/)** ·
-[Report a problem](https://github.com/Suleiman700/Bright-Downloader/issues) ·
-by BrightPixel
+<p align="center">
+  <a href="https://github.com/Suleiman700/bright-downloader/releases/latest"><b>Download</b></a> ·
+  <a href="https://suleiman700.github.io/bright-downloader/"><b>Website</b></a> ·
+  <a href="https://github.com/Suleiman700/bright-downloader/issues">Report a problem</a> ·
+  by BrightPixel
+</p>
+
+# Bright Downloader
 
 A free, open-source (MIT) download manager for Windows that downloads the way
 classic accelerators do: one file over many connections at once, with
 **dynamic segmentation** so every connection stays busy until the last byte.
+
+## Screenshots
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="site/images/main-dark.png" />
+  <img src="site/images/main-light.png" alt="Main window with three downloads running, per-connection progress and a speed graph" />
+</picture>
+
+<table>
+  <tr>
+    <td width="62%"><img src="site/images/add-video.png" alt="Add download dialog with a quality choice for a video page" /></td>
+    <td><img src="site/images/progress.png" alt="Progress window showing 16 connections downloading parts of one file" /></td>
+  </tr>
+  <tr>
+    <td>Video pages and HLS / DASH streams: pick the quality before downloading.</td>
+    <td>Progress window: each block is one connection's share of the file.</td>
+  </tr>
+</table>
 
 ## Features
 

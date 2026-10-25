@@ -11,9 +11,9 @@ use dm_engine::{Engine, Job, Outcome, Progress, RequestSpec};
 use serde::{Deserialize, Serialize};
 use tokio_util::sync::CancellationToken;
 
-pub const REPO_URL: &str = "https://github.com/Suleiman700/Bright-Downloader";
-pub const SITE_URL: &str = "https://suleiman700.github.io/Bright-Downloader/";
-const LATEST_API: &str = "https://api.github.com/repos/Suleiman700/Bright-Downloader/releases/latest";
+pub const REPO_URL: &str = "https://github.com/Suleiman700/bright-downloader";
+pub const SITE_URL: &str = "https://suleiman700.github.io/bright-downloader/";
+const LATEST_API: &str = "https://api.github.com/repos/Suleiman700/bright-downloader/releases/latest";
 const SUMS_ASSET: &str = "SHA256SUMS.txt";
 /// Written before the installer runs, read by the new version.
 const NOTES_FILE: &str = "update-notes.json";

@@ -6,6 +6,11 @@
     <title>Bright Downloader – fast, free download manager for Windows</title>
     <meta name="description" content="Bright Downloader is a free, open-source download manager for Windows by BrightPixel: many connections per file, pause and resume, queues, a scheduler and a browser extension that catches videos." />
     <link rel="icon" type="image/png" href="icon.png" />
+    <meta property="og:title" content="Bright Downloader" />
+    <meta property="og:description" content="Free, open-source download manager for Windows: many connections per file, pause and resume, and one-click video downloads." />
+    <meta property="og:image" content="https://suleiman700.github.io/bright-downloader/images/social-preview.png" />
+    <meta property="og:url" content="https://suleiman700.github.io/bright-downloader/" />
+    <meta name="twitter:card" content="summary_large_image" />
     <style>
       :root {
         --bg: #f4f6f9;
@@ -46,7 +51,7 @@
       header.top nav a { color: var(--muted); text-decoration: none; }
       header.top nav a:hover { color: var(--text); }
 
-      .hero { display: grid; grid-template-columns: 1.05fr 1fr; gap: 48px; align-items: center; padding: 48px 0 72px; }
+      .hero { display: grid; grid-template-columns: 1fr 1.25fr; gap: 48px; align-items: center; padding: 48px 0 72px; }
       .hero h1 { font-size: clamp(34px, 5vw, 52px); line-height: 1.1; margin: 0 0 18px; letter-spacing: -0.02em; }
       .hero h1 span { color: var(--accent); }
       .hero p.lead { font-size: 19px; color: var(--muted); margin: 0 0 28px; max-width: 34em; }
@@ -61,21 +66,12 @@
       .btn svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
       .fine { margin-top: 12px; font-size: 13px; color: var(--muted); }
 
-      /* A drawing of the main window, not a screenshot. */
-      .app {
-        background: var(--panel); border: 1px solid var(--border); border-radius: 12px;
-        box-shadow: var(--shadow); overflow: hidden; font-size: 13px;
-      }
-      .app .bar { display: flex; gap: 6px; padding: 10px 12px; border-bottom: 1px solid var(--border); }
-      .app .bar i { width: 54px; height: 22px; border-radius: 6px; background: var(--bg); }
-      .app .bar i:first-child { background: var(--accent); }
-      .app .row { display: grid; grid-template-columns: 1fr 70px; gap: 10px; padding: 11px 14px; border-bottom: 1px solid var(--border); align-items: center; }
-      .app .row:last-child { border-bottom: 0; }
-      .app .name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-      .app .meter { grid-column: 1 / -1; height: 5px; border-radius: 3px; background: var(--soft); overflow: hidden; }
-      .app .meter b { display: block; height: 100%; background: var(--accent); }
-      .app .row.done .meter b { background: #16a34a; }
-      .app .speed { color: var(--muted); text-align: end; font-variant-numeric: tabular-nums; }
+      .shot { display: block; width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--border); box-shadow: var(--shadow); background: var(--panel); }
+
+      .screens { padding: 64px 0; border-top: 1px solid var(--border); }
+      .screens .pair { display: grid; grid-template-columns: 1.6fr 1fr; gap: 24px; align-items: start; }
+      .screens figure { margin: 0; }
+      .screens figcaption { margin-top: 10px; font-size: 14px; color: var(--muted); }
 
       section h2 { font-size: 30px; margin: 0 0 8px; letter-spacing: -0.01em; }
       section > p { color: var(--muted); margin: 0 0 30px; }
@@ -102,6 +98,7 @@
 
       @media (max-width: 820px) {
         .hero { grid-template-columns: 1fr; padding-top: 24px; }
+        .screens .pair { grid-template-columns: 1fr; }
         .grid, .steps ol { grid-template-columns: 1fr; }
         header.top nav a.hide-sm { display: none; }
       }
@@ -114,8 +111,9 @@
         <strong>Bright Downloader</strong>
         <nav>
           <a href="#features" class="hide-sm">Features</a>
-          <a href="https://github.com/Suleiman700/Bright-Downloader/releases">Releases</a>
-          <a href="https://github.com/Suleiman700/Bright-Downloader">GitHub</a>
+          <a href="#screens" class="hide-sm">Screenshots</a>
+          <a href="https://github.com/Suleiman700/bright-downloader/releases">Releases</a>
+          <a href="https://github.com/Suleiman700/bright-downloader">GitHub</a>
         </nav>
       </header>
 
@@ -125,11 +123,11 @@
             <h1>Downloads that finish <span>faster</span>.</h1>
             <p class="lead">Bright Downloader splits every file across many connections, keeps them all busy to the last byte, and picks up where it left off after a crash or reboot. It's free and open source.</p>
             <div class="cta">
-              <a class="btn primary" id="dl" href="https://github.com/Suleiman700/Bright-Downloader/releases/latest">
+              <a class="btn primary" id="dl" href="https://github.com/Suleiman700/bright-downloader/releases/latest">
                 <svg viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14" /></svg>
                 <span id="dl-text">Download for Windows</span>
               </a>
-              <a class="btn" href="https://github.com/Suleiman700/Bright-Downloader">
+              <a class="btn" href="https://github.com/Suleiman700/bright-downloader">
                 <svg viewBox="0 0 24 24"><path d="M9 19c-4 1.3-4-2-6-2.5M15 21v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12 12 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21" /></svg>
                 Source code
               </a>
@@ -137,13 +135,10 @@
             <p class="fine" id="dl-fine">Windows 10 and 11 · 64-bit · updates itself</p>
           </div>
 
-          <div class="app" aria-hidden="true">
-            <div class="bar"><i></i><i></i><i></i><i></i></div>
-            <div class="row"><span class="name">ubuntu-24.04-desktop-amd64.iso</span><span class="speed">48.2 MB/s</span><div class="meter"><b style="width: 64%"></b></div></div>
-            <div class="row"><span class="name">conference-keynote-1080p.mp4</span><span class="speed">21.7 MB/s</span><div class="meter"><b style="width: 38%"></b></div></div>
-            <div class="row done"><span class="name">project-assets.zip</span><span class="speed">Done</span><div class="meter"><b style="width: 100%"></b></div></div>
-            <div class="row"><span class="name">podcast-episode-142.mp3</span><span class="speed">Queued</span><div class="meter"><b style="width: 0%"></b></div></div>
-          </div>
+          <picture>
+            <source srcset="images/main-dark.png" media="(prefers-color-scheme: dark)" />
+            <img class="shot" src="images/main-light.png" width="2400" height="1520" alt="Bright Downloader's main window with three downloads running, showing per-connection progress and a speed graph" />
+          </picture>
         </div>
 
         <section class="features" id="features">
@@ -183,6 +178,21 @@
           </div>
         </section>
 
+        <section class="screens" id="screens">
+          <h2>See it in action</h2>
+          <p>Pick a quality for a video page, then follow each download in its own window.</p>
+          <div class="pair">
+            <figure>
+              <img class="shot" src="images/add-video.png" width="2400" height="1520" loading="lazy" alt="The Add download dialog offering 4K, 1080p, 720p and audio-only for a video page" />
+              <figcaption>Video pages and HLS / DASH streams: choose the quality before downloading.</figcaption>
+            </figure>
+            <figure>
+              <img class="shot" src="images/progress.png" width="1120" height="660" loading="lazy" alt="A progress window showing 16 connections downloading parts of one file" />
+              <figcaption>Each block is one connection's share of the file.</figcaption>
+            </figure>
+          </div>
+        </section>
+
         <section class="steps">
           <h2>Get started in a minute</h2>
           <p>No account, no sign-up.</p>
@@ -198,15 +208,15 @@
     <footer>
       <div class="wrap">
         <span>© BrightPixel · Bright Downloader is open source under the MIT license.</span>
-        <a href="https://github.com/Suleiman700/Bright-Downloader/issues">Report a problem</a>
-        <a href="https://github.com/Suleiman700/Bright-Downloader/releases">All releases</a>
+        <a href="https://github.com/Suleiman700/bright-downloader/issues">Report a problem</a>
+        <a href="https://github.com/Suleiman700/bright-downloader/releases">All releases</a>
       </div>
     </footer>
 
     <script>
       // Point the button straight at the newest installer when GitHub answers;
       // otherwise it keeps linking to the latest release page.
-      fetch("https://api.github.com/repos/Suleiman700/Bright-Downloader/releases/latest")
+      fetch("https://api.github.com/repos/Suleiman700/bright-downloader/releases/latest")
         .then((r) => (r.ok ? r.json() : null))
         .then((release) => {
           const installer = release?.assets?.find((a) => /-setup\.exe$/i.test(a.name));
