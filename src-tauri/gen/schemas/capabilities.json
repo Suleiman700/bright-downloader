@@ -1,0 +1,1 @@
+{"default":{"identifier":"default","description":"Main window: app commands, events, file and folder pickers","local":true,"windows":["main","progress-*"],"permissions":["core:default","core:window:allow-close","dialog:allow-open","dialog:allow-save"]}}

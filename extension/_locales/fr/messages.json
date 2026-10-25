@@ -1,0 +1,95 @@
+{
+  "extName": {
+    "message": "Intégration Bright Downloader"
+  },
+  "extDescription": {
+    "message": "Envoyer les téléchargements du navigateur et les vidéos des pages web (HLS, DASH et sites vidéo) au gestionnaire de téléchargement Bright Downloader."
+  },
+  "menuDownload": {
+    "message": "Télécharger avec Bright Downloader"
+  },
+  "appNotRunning": {
+    "message": "Bright Downloader n'est pas lancé"
+  },
+  "appRefused": {
+    "message": "Bright Downloader l'a refusé (HTTP $1)"
+  },
+  "checking": {
+    "message": "Vérification…"
+  },
+  "connected": {
+    "message": "Connecté · v$1"
+  },
+  "captureDownloads": {
+    "message": "Intercepter les téléchargements de ce navigateur"
+  },
+  "captureAll": {
+    "message": "Intercepter tous les types de fichiers"
+  },
+  "showButton": {
+    "message": "Afficher un bouton de téléchargement sur les vidéos"
+  },
+  "fileTypes": {
+    "message": "Types de fichiers à intercepter"
+  },
+  "minSize": {
+    "message": "Ignorer les fichiers de moins de (Ko, 0 = aucune limite)"
+  },
+  "videosHere": {
+    "message": "Vidéos de cette page"
+  },
+  "hint": {
+    "message": "Faites un clic droit sur un lien et choisissez « Télécharger avec Bright Downloader » pour l'envoyer manuellement."
+  },
+  "liveStream": {
+    "message": "Direct"
+  },
+  "stream": {
+    "message": "Flux"
+  },
+  "streamN": {
+    "message": "Flux $1"
+  },
+  "streamQualities": {
+    "message": "Flux · $1 qualités"
+  },
+  "download": {
+    "message": "Télécharger"
+  },
+  "sentShort": {
+    "message": "Envoyé ✓"
+  },
+  "failed": {
+    "message": "Échec"
+  },
+  "buttonLabel": {
+    "message": "Télécharger cette vidéo"
+  },
+  "buttonTitle": {
+    "message": "Télécharger cette vidéo avec Bright Downloader"
+  },
+  "thisVideo": {
+    "message": "Cette vidéo"
+  },
+  "liveRecord": {
+    "message": "direct (enregistre jusqu'à l'arrêt)"
+  },
+  "fromPage": {
+    "message": "Depuis cette page (sites vidéo, via yt-dlp)"
+  },
+  "sending": {
+    "message": "Envoi…"
+  },
+  "sent": {
+    "message": "Envoyé à Bright Downloader ✓"
+  },
+  "inBrowser": {
+    "message": "Téléchargement dans le navigateur"
+  },
+  "unreachable": {
+    "message": "Impossible de joindre Bright Downloader"
+  },
+  "nothingYet": {
+    "message": "Rien à télécharger pour l'instant. Lancez la vidéo puis réessayez. Les vidéos protégées (DRM) ne peuvent pas être téléchargées."
+  }
+}

@@ -1,0 +1,715 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bright Downloader</title>
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body>
+    <div id="app">
+      <header class="toolbar" role="toolbar" aria-label="Download actions">
+        <button class="tool primary" id="btn-add" title="Add URL (Ctrl+N)">
+          <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" /></svg><span>Add URL</span>
+        </button>
+        <button class="tool" id="btn-batch" title="Add a numbered range or a list of URLs">
+          <svg viewBox="0 0 24 24"><path d="M4 6h10M4 12h10M4 18h10M18 9v6M15 12h6" /></svg><span>Batch</span>
+        </button>
+        <button class="tool" id="btn-grab" title="Find files linked from a web page">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z" /></svg><span>Grabber</span>
+        </button>
+        <button class="tool" id="btn-links" title="Import or export a list of links">
+          <svg viewBox="0 0 24 24"><path d="M14 3H6v18h12V7z" /><path d="M14 3v4h4M9 13h6M9 17h6" /></svg><span>Links</span>
+        </button>
+        <div class="sep"></div>
+        <button class="tool" id="btn-resume" title="Resume">
+          <svg viewBox="0 0 24 24"><path d="M7 5l12 7-12 7z" /></svg><span>Resume</span>
+        </button>
+        <button class="tool" id="btn-pause" title="Stop">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14M16 5v14" /></svg><span>Stop</span>
+        </button>
+        <button class="tool" id="btn-pause-all" title="Stop all">
+          <svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="1" /></svg><span>Stop All</span>
+        </button>
+        <div class="sep"></div>
+        <button class="tool" id="btn-delete" title="Delete (Del)">
+          <svg viewBox="0 0 24 24"><path d="M5 7h14M10 7V4h4v3M7 7l1 13h8l1-13" /></svg><span>Delete</span>
+        </button>
+        <button class="tool" id="btn-clear" title="Delete all completed">
+          <svg viewBox="0 0 24 24"><path d="M5 12l4 4 10-10" /></svg><span>Delete Completed</span>
+        </button>
+        <div class="sep"></div>
+        <button class="tool" id="btn-folder" title="Show in folder">
+          <svg viewBox="0 0 24 24"><path d="M3 7h6l2 2h10v10H3z" /></svg><span>Open Folder</span>
+        </button>
+        <button class="tool" id="btn-settings" title="Options">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h0a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h0a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v0a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" /></svg><span>Options</span>
+        </button>
+        <button class="tool" id="btn-help" title="Help, updates and the project on GitHub">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" /><path d="M9.5 9.2a2.6 2.6 0 0 1 5 .9c0 1.7-2.5 2.2-2.5 3.9M12 17.2v.1" /></svg><span>Help</span>
+        </button>
+        <div class="spacer"></div>
+        <input id="search" type="search" placeholder="Search downloads" aria-label="Search downloads" />
+      </header>
+
+      <div class="body">
+        <nav class="sidebar" id="sidebar" aria-label="Categories"></nav>
+
+        <main class="main">
+          <div class="table-wrap">
+            <table class="list" id="list">
+              <thead>
+                <tr>
+                  <th class="c-name">File Name</th>
+                  <th class="c-size">Size</th>
+                  <th class="c-status">Status</th>
+                  <th class="c-eta">Time Left</th>
+                  <th class="c-rate">Transfer Rate</th>
+                  <th class="c-date">Added</th>
+                </tr>
+              </thead>
+              <tbody id="rows"></tbody>
+            </table>
+            <div class="empty" id="empty">
+              <p>No downloads here yet. Drop links here or add one.</p>
+              <button class="btn primary" id="btn-add-empty">Add URL</button>
+            </div>
+          </div>
+
+          <section class="details" id="details" hidden>
+            <div class="details-head">
+              <strong translate="no" id="d-name"></strong>
+              <div class="details-actions">
+                <button class="btn" id="d-open">Open</button>
+                <button class="btn" id="d-folder">Show in folder</button>
+              </div>
+            </div>
+            <div class="segbar" id="d-segbar" title="Each block is one connection's part of the file"></div>
+            <div class="details-body">
+              <dl class="facts">
+                <dt>Address</dt><dd translate="no" id="d-url"></dd>
+                <dt>Saved to</dt><dd translate="no" id="d-path"></dd>
+                <dt>Downloaded</dt><dd id="d-done"></dd>
+                <dt>Connections</dt><dd id="d-conns"></dd>
+                <dt>Resume</dt><dd id="d-resume"></dd>
+                <dt>Queue</dt><dd id="d-queue"></dd>
+                <dt>Speed limit</dt><dd id="d-limit"></dd>
+                <dt>Checksum</dt><dd translate="no" id="d-sum"></dd>
+                <dt>After download</dt><dd id="d-note"></dd>
+              </dl>
+              <div class="graph-wrap">
+                <canvas id="d-graph" title="Transfer rate over the last two minutes"></canvas>
+                <span class="graph-label" id="d-graph-label"></span>
+              </div>
+            </div>
+          </section>
+        </main>
+      </div>
+
+      <footer class="statusbar">
+        <span id="sb-active">No active downloads</span>
+        <span id="sb-done"></span>
+        <span id="sb-speed"></span>
+      </footer>
+    </div>
+
+    <div id="drop" class="drop" hidden><div>Drop links here to download them</div></div>
+
+    <div id="toast" class="toast" role="status" hidden>
+      <span translate="no" id="toast-text"></span>
+      <button class="btn primary" id="toast-go" type="button">Download</button>
+      <button class="btn" id="toast-close" type="button">Dismiss</button>
+    </div>
+
+    <dialog id="dlg-add" class="modal">
+      <form method="dialog" id="form-add">
+        <h2>Add download</h2>
+        <div class="field">
+          <label for="add-url">Address</label>
+          <div class="row">
+            <input id="add-url" type="url" required placeholder="https://example.com/file.zip" autocomplete="off" list="add-url-list" />
+            <button type="button" class="btn" id="add-hist-toggle" aria-expanded="false" title="Recently checked links">History</button>
+          </div>
+          <datalist id="add-url-list"></datalist>
+        </div>
+        <div class="history" id="add-history" hidden>
+          <div class="history-head">
+            <span>Recently checked links</span>
+            <button type="button" class="link" id="hist-clear">Clear all</button>
+          </div>
+          <ul id="hist-list"></ul>
+          <p class="meta" id="hist-empty">No links yet. Links you check appear here.</p>
+        </div>
+        <div id="add-info" class="add-info" hidden>
+          <p class="warn" id="add-dup" hidden></p>
+          <label class="field">
+            <span>Save as</span>
+            <input id="add-name" type="text" />
+          </label>
+          <label class="field">
+            <span>Folder</span>
+            <div class="row">
+              <input id="add-dir" type="text" />
+              <button type="button" class="btn" id="add-browse">Browse…</button>
+            </div>
+          </label>
+          <label class="field" id="add-quality-field" hidden>
+            <span>Quality</span>
+            <select id="add-quality"></select>
+          </label>
+          <p class="meta" id="add-meta"></p>
+          <p class="meta" id="add-stream-note" hidden></p>
+          <p class="warn" id="add-space" hidden></p>
+          <details class="more">
+            <summary>More options</summary>
+            <div class="grid2">
+              <label class="field">
+                <span>Queue</span>
+                <select id="add-queue"></select>
+              </label>
+              <label class="field">
+                <span>When done</span>
+                <select id="add-open">
+                  <option value="nothing">Do nothing</option>
+                  <option value="file">Open the file</option>
+                  <option value="folder">Show in folder</option>
+                  <option value="shutdown">Shut down the computer</option>
+                  <option value="sleep">Sleep</option>
+                  <option value="command">Run a command</option>
+                </select>
+              </label>
+            </div>
+            <label class="field" id="add-cmd-field" hidden>
+              <span>Command to run in Command Prompt</span>
+              <input id="add-cmd" type="text" spellcheck="false" autocomplete="off" placeholder='copy "%f" "D:\Backup\"' />
+              <small class="meta"><code>%f</code> = file, <code>%d</code> = folder, <code>%n</code> = name, <code>%u</code> = address. All variables are listed in Options › Automation.</small>
+            </label>
+            <div class="grid2">
+              <label class="field">
+                <span>Speed limit (KB/s, 0 = none)</span>
+                <input id="add-limit" type="number" min="0" value="0" />
+              </label>
+              <label class="field">
+                <span>Priority</span>
+                <select id="add-priority">
+                  <option value="high">High</option>
+                  <option value="normal">Normal</option>
+                  <option value="low">Low</option>
+                </select>
+              </label>
+            </div>
+            <label class="field">
+              <span>Checksum to verify (MD5 or SHA-256, optional)</span>
+              <input id="add-sum" type="text" autocomplete="off" spellcheck="false" placeholder="Paste the hash published with the file" />
+            </label>
+          </details>
+        </div>
+        <p class="error" id="add-error" role="alert"></p>
+        <div class="actions">
+          <button type="button" class="btn" id="add-cancel">Cancel</button>
+          <button type="button" class="btn" id="add-later" hidden>Download Later</button>
+          <button type="submit" class="btn primary" id="add-go">Check link</button>
+        </div>
+      </form>
+    </dialog>
+
+    <div id="ctx" class="ctx" role="menu" hidden></div>
+    <div id="ctx-sub" class="ctx" role="menu" hidden></div>
+
+    <dialog id="dlg-batch" class="modal">
+      <form method="dialog" id="form-batch">
+        <h2 id="batch-title">Batch download</h2>
+        <div class="tabs" role="tablist" id="batch-tabs">
+          <button type="button" class="tab active" role="tab" data-mode="pattern">Numbered range</button>
+          <button type="button" class="tab" role="tab" data-mode="list">List of links</button>
+        </div>
+        <div id="batch-pattern" class="tab-panel compact">
+          <div class="field">
+            <label for="batch-url">Address</label>
+            <input id="batch-url" type="text" placeholder="https://example.com/photo[001-100].jpg" autocomplete="off" spellcheck="false" />
+            <p class="meta">Write the range in brackets: <code>[1-20]</code>, <code>[001-100]</code> (zero-padded) or <code>[a-z]</code>. Or use a placeholder with the fields below.</p>
+          </div>
+          <div class="grid2" id="batch-ph-fields">
+            <label class="field">
+              <span>Placeholder</span>
+              <input id="batch-ph" type="text" value="%" maxlength="8" spellcheck="false" />
+            </label>
+            <label class="field">
+              <span>Pad to digits (0 = none)</span>
+              <input id="batch-pad" type="number" value="0" min="0" max="12" />
+            </label>
+            <label class="field">
+              <span>From</span>
+              <input id="batch-from" type="number" value="1" min="0" />
+            </label>
+            <label class="field">
+              <span>To</span>
+              <input id="batch-to" type="number" value="10" min="0" />
+            </label>
+          </div>
+        </div>
+        <div id="batch-listmode" class="tab-panel compact" hidden>
+          <label class="field">
+            <span>Links, one per line (lines starting with # are skipped)</span>
+            <textarea id="batch-links" rows="6" spellcheck="false" placeholder="https://example.com/a.zip&#10;https://example.com/b.zip"></textarea>
+          </label>
+        </div>
+        <div class="grid2">
+          <label class="field">
+            <span>Folder (empty = default)</span>
+            <div class="row">
+              <input id="batch-dir" type="text" />
+              <button type="button" class="btn" id="batch-browse">Browse…</button>
+            </div>
+          </label>
+          <label class="field">
+            <span>Queue</span>
+            <select id="batch-queue"></select>
+          </label>
+        </div>
+        <label class="check"><input type="checkbox" id="batch-start" checked /> Start downloading now</label>
+        <p class="meta" id="batch-count"></p>
+        <ol class="batch-list" id="batch-preview" hidden></ol>
+        <p class="error" id="batch-error" role="alert"></p>
+        <div class="actions">
+          <button type="button" class="btn" id="batch-cancel">Cancel</button>
+          <button type="submit" class="btn primary" id="batch-go">Add all</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="dlg-grab" class="modal">
+      <form id="form-grab">
+        <h2>Site grabber</h2>
+        <p class="meta">Finds links to files on a web page. With a depth above zero it also follows links to other pages on the same site.</p>
+        <label class="field">
+          <span>Page address</span>
+          <input id="grab-url" type="url" required autocomplete="off" placeholder="https://example.com/downloads/" />
+        </label>
+        <div class="grid2">
+          <label class="field">
+            <span>Follow links</span>
+            <select id="grab-depth">
+              <option value="0">This page only</option>
+              <option value="1">1 level deep</option>
+              <option value="2">2 levels deep</option>
+              <option value="3">3 levels deep</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>File types</span>
+            <input id="grab-exts" type="text" spellcheck="false" />
+          </label>
+        </div>
+        <div class="grab-head" id="grab-head" hidden>
+          <span class="meta" id="grab-status"></span>
+          <span><button type="button" class="link" id="grab-all">All</button> · <button type="button" class="link" id="grab-none">None</button></span>
+        </div>
+        <ul class="grab-list" id="grab-results" hidden></ul>
+        <p class="error" id="grab-error" role="alert"></p>
+        <div class="actions">
+          <button type="button" class="btn" id="grab-cancel">Close</button>
+          <button type="submit" class="btn primary" id="grab-go">Find files</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="dlg-url" class="modal">
+      <form id="form-url">
+        <h2>Change address</h2>
+        <p class="meta">Paste a fresh link for the same file. If the file on the server is unchanged, the download continues where it stopped; otherwise it starts over.</p>
+        <label class="field">
+          <span>New address</span>
+          <input id="url-new" type="url" required autocomplete="off" />
+        </label>
+        <p class="error" id="url-error" role="alert"></p>
+        <div class="actions">
+          <button type="button" class="btn" id="url-cancel">Cancel</button>
+          <button type="submit" class="btn primary">Save</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="dlg-limit" class="modal narrow">
+      <form method="dialog">
+        <h2>Speed limit</h2>
+        <p class="meta" id="limit-name" translate="no"></p>
+        <label class="field">
+          <span>Limit for this download (KB/s, 0 = no limit)</span>
+          <input id="limit-kib" type="number" min="0" />
+        </label>
+        <p class="meta">The overall limit in Options still applies.</p>
+        <div class="actions">
+          <button value="cancel" class="btn">Cancel</button>
+          <button value="ok" class="btn primary">Save</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="dlg-hash" class="modal">
+      <form id="form-hash">
+        <h2>Verify checksum</h2>
+        <p class="meta" id="hash-name" translate="no"></p>
+        <div class="grid2">
+          <label class="field">
+            <span>Algorithm</span>
+            <select id="hash-algo">
+              <option value="sha256">SHA-256</option>
+              <option value="md5">MD5</option>
+            </select>
+          </label>
+          <div class="field">
+            <span>&nbsp;</span>
+            <button type="submit" class="btn" id="hash-go">Calculate</button>
+          </div>
+        </div>
+        <label class="field">
+          <span>Checksum of the file</span>
+          <input id="hash-out" type="text" readonly />
+        </label>
+        <label class="field">
+          <span>Expected checksum (paste to compare)</span>
+          <input id="hash-expect" type="text" spellcheck="false" autocomplete="off" />
+        </label>
+        <p class="meta" id="hash-result"></p>
+        <div class="actions">
+          <button type="button" class="btn" id="hash-close">Close</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="dlg-done" class="modal narrow">
+      <form method="dialog">
+        <h2>All downloads finished</h2>
+        <p id="done-text"></p>
+        <div class="actions">
+          <button value="cancel" class="btn">Cancel</button>
+          <button value="now" class="btn primary" id="done-now">Do it now</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="dlg-sync" class="modal narrow">
+      <form method="dialog">
+        <h2>Keep in sync</h2>
+        <p class="meta">Bright Downloader checks the server regularly and downloads the file again when it changes.</p>
+        <label class="field">
+          <span>Check for a newer version</span>
+          <select id="sync-hours">
+            <option value="0">Never</option>
+            <option value="1">Every hour</option>
+            <option value="6">Every 6 hours</option>
+            <option value="24">Every day</option>
+            <option value="168">Every week</option>
+          </select>
+        </label>
+        <div class="actions">
+          <button value="cancel" class="btn">Cancel</button>
+          <button value="ok" class="btn primary">Save</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="dlg-delete" class="modal">
+      <form method="dialog">
+        <h2>Delete downloads</h2>
+        <p id="del-text"></p>
+        <label class="check"><input type="checkbox" id="del-files" /> Also delete downloaded files from disk</label>
+        <div class="actions">
+          <button value="cancel" class="btn">Cancel</button>
+          <button value="ok" class="btn danger">Delete</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="dlg-settings" class="modal wide">
+      <form method="dialog" id="form-settings">
+        <h2>Options</h2>
+        <div class="tabs" role="tablist" id="set-tabs">
+          <button type="button" class="tab active" role="tab" data-tab="general">General</button>
+          <button type="button" class="tab" role="tab" data-tab="look">Look</button>
+          <button type="button" class="tab" role="tab" data-tab="connection">Connection</button>
+          <button type="button" class="tab" role="tab" data-tab="queues">Queues</button>
+          <button type="button" class="tab" role="tab" data-tab="after">Automation</button>
+          <button type="button" class="tab" role="tab" data-tab="logins">Logins</button>
+          <button type="button" class="tab" role="tab" data-tab="video">Video</button>
+          <button type="button" class="tab" role="tab" data-tab="history">History</button>
+          <button type="button" class="tab" role="tab" data-tab="scheduler">Scheduler</button>
+        </div>
+        <div class="tab-panel" data-panel="general">
+          <label class="field">
+            <span>Default download folder</span>
+            <div class="row">
+              <input id="set-dir" type="text" />
+              <button type="button" class="btn" id="set-browse">Browse…</button>
+            </div>
+          </label>
+          <label class="check"><input type="checkbox" id="set-sort" /> Save each file type in its own sub-folder (Video, Music, …)</label>
+          <label class="check"><input type="checkbox" id="set-clip" /> Offer to download file links I copy</label>
+          <label class="check"><input type="checkbox" id="set-autostart" /> Start Bright Downloader in the tray when Windows starts</label>
+          <label class="check"><input type="checkbox" id="set-progress-win" /> Show a progress window for each download</label>
+          <label class="check"><input type="checkbox" id="set-updates" /> Check for new versions automatically</label>
+          <label class="field narrow-field">
+            <span>Language</span>
+            <select id="set-lang">
+              <option value="auto">Same as Windows</option>
+              <option value="en" translate="no">English</option>
+              <option value="ar" translate="no">العربية</option>
+              <option value="fr" translate="no">Français</option>
+              <option value="es" translate="no">Español</option>
+            </select>
+          </label>
+          <p class="error" id="set-error" role="alert"></p>
+        </div>
+        <div class="tab-panel" data-panel="look" hidden>
+          <div class="field">
+            <span>Theme</span>
+            <div class="theme-choices" id="set-theme">
+              <label class="theme-choice"><input type="radio" name="theme" value="light" /><span class="swatch light"></span>Light</label>
+              <label class="theme-choice"><input type="radio" name="theme" value="dark" /><span class="swatch dark"></span>Dark</label>
+              <label class="theme-choice"><input type="radio" name="theme" value="system" /><span class="swatch system"></span>Same as system</label>
+            </div>
+          </div>
+        </div>
+        <div class="tab-panel" data-panel="connection" hidden>
+          <div class="grid2">
+            <label class="field">
+              <span>Connections per download</span>
+              <input id="set-conns" type="number" min="1" max="32" />
+            </label>
+            <label class="field">
+              <span>Downloads at the same time</span>
+              <input id="set-max" type="number" min="1" max="20" />
+            </label>
+            <label class="field">
+              <span>Speed limit (KB/s, 0 = none)</span>
+              <input id="set-limit" type="number" min="0" />
+            </label>
+            <label class="field">
+              <span>Retry after network errors (times)</span>
+              <input id="set-retry" type="number" min="0" max="20" />
+            </label>
+          </div>
+          <label class="field">
+            <span>Connections for specific servers, one per line: <code>host connections</code> (also covers subdomains)</span>
+            <textarea id="set-hosts" rows="3" spellcheck="false" placeholder="example.com 2&#10;cdn.example.net 16"></textarea>
+          </label>
+          <div class="grid2">
+            <label class="field">
+              <span>Proxy</span>
+              <select id="set-proxy-mode">
+                <option value="system">Use the Windows settings</option>
+                <option value="none">No proxy</option>
+                <option value="custom">Use this proxy</option>
+              </select>
+            </label>
+            <label class="field" id="set-proxy-field">
+              <span>Proxy address (http:// or socks5://)</span>
+              <input id="set-proxy" type="text" spellcheck="false" placeholder="http://127.0.0.1:8080" />
+            </label>
+            <label class="field">
+              <span>Download limit (MB, 0 = none)</span>
+              <input id="set-quota-mb" type="number" min="0" />
+            </label>
+            <label class="field">
+              <span>Limit period (hours)</span>
+              <input id="set-quota-hours" type="number" min="1" max="168" />
+            </label>
+          </div>
+        </div>
+        <div class="tab-panel" data-panel="queues" hidden>
+          <p class="meta">Each queue runs its own downloads. "At once" limits that queue (0 = only the overall limit). Right-click a queue in the sidebar to start or stop it.</p>
+          <div class="queue-rows" id="set-queues"></div>
+          <div><button type="button" class="btn" id="set-queue-add">Add queue</button></div>
+        </div>
+        <div class="tab-panel" data-panel="after" hidden>
+          <label class="field">
+            <span>Virus scan command (empty = no scan)</span>
+            <div class="row">
+              <input id="set-scan" type="text" spellcheck="false" />
+              <button type="button" class="btn" id="set-scan-defender">Use Defender</button>
+            </div>
+          </label>
+          <p class="meta">If the scanner reports a problem, the file is not extracted or opened.</p>
+          <label class="check"><input type="checkbox" id="set-extract" /> Extract archives (zip, 7z, rar, tar) into a folder next to them</label>
+          <div class="grid2">
+            <label class="field">
+              <span>When a download is done (default for new downloads)</span>
+              <select id="set-default-done">
+                <option value="nothing">Do nothing</option>
+                <option value="file">Open the file</option>
+                <option value="folder">Show in folder</option>
+                <option value="shutdown">Shut down the computer</option>
+                <option value="sleep">Sleep</option>
+                <option value="command">Run a command</option>
+              </select>
+            </label>
+            <label class="field" id="set-default-cmd-field">
+              <span>Its command</span>
+              <input id="set-default-cmd" type="text" spellcheck="false" placeholder='copy "%f" "D:\Backup\"' />
+            </label>
+          </div>
+          <label class="field">
+            <span>Command to run when a download starts (empty = none)</span>
+            <input id="set-start-cmd" type="text" spellcheck="false" placeholder='echo %n started >> "%USERPROFILE%\downloads.log"' />
+          </label>
+          <label class="field">
+            <span>Command to run when a download finishes (empty = none)</span>
+            <input id="set-finish-cmd" type="text" spellcheck="false" placeholder='echo %n done >> "%USERPROFILE%\downloads.log"' />
+          </label>
+          <div class="var-help">
+            <p class="meta">Commands run in Command Prompt. Click a variable to add it to the command you are editing:</p>
+            <div class="var-list" id="set-vars">
+              <button type="button" class="var" data-var="%f"><code>%f</code><span>Full path of the file</span><small translate="no">C:\Downloads\Video\clip.mp4</small></button>
+              <button type="button" class="var" data-var="%d"><code>%d</code><span>Folder it was saved in</span><small translate="no">C:\Downloads\Video</small></button>
+              <button type="button" class="var" data-var="%n"><code>%n</code><span>File name</span><small translate="no">clip.mp4</small></button>
+              <button type="button" class="var" data-var="%b"><code>%b</code><span>Name without extension</span><small translate="no">clip</small></button>
+              <button type="button" class="var" data-var="%e"><code>%e</code><span>Extension</span><small translate="no">mp4</small></button>
+              <button type="button" class="var" data-var="%u"><code>%u</code><span>Download address</span><small translate="no">https://example.com/clip.mp4</small></button>
+              <button type="button" class="var" data-var="%h"><code>%h</code><span>Site</span><small translate="no">example.com</small></button>
+              <button type="button" class="var" data-var="%r"><code>%r</code><span>Page it came from (referrer)</span><small translate="no">https://example.com/videos</small></button>
+              <button type="button" class="var" data-var="%s"><code>%s</code><span>Size</span><small translate="no">1.5 GB</small></button>
+              <button type="button" class="var" data-var="%t"><code>%t</code><span>Download time (h:mm:ss)</span><small translate="no">0:02:35</small></button>
+              <button type="button" class="var" data-var="%c"><code>%c</code><span>Category</span><small translate="no">Video</small></button>
+              <button type="button" class="var" data-var="%q"><code>%q</code><span>Queue</span><small translate="no">Main</small></button>
+            </div>
+            <p class="meta">Put quotes around paths: <code>"%f"</code>. Windows variables such as <code>%USERPROFILE%</code> work too.</p>
+          </div>
+        </div>
+        <div class="tab-panel" data-panel="logins" hidden>
+          <p class="meta">Used when a server asks for a user name and password (HTTP and FTP). Passwords are stored encrypted for your Windows account.</p>
+          <div class="queue-rows" id="set-logins"></div>
+          <div><button type="button" class="btn" id="set-login-add">Add login</button></div>
+        </div>
+        <div class="tab-panel" data-panel="video" hidden>
+          <p class="meta">Helper programs for videos. They are downloaded from their official GitHub releases and checked against the published checksums before they are installed.</p>
+          <div class="tool-row">
+            <div>
+              <strong translate="no">ffmpeg</strong>
+              <div class="meta">Saves streams as MP4 and joins separate video and audio.</div>
+              <div class="meta tool-status" id="tool-ffmpeg-status" translate="no"></div>
+            </div>
+            <button type="button" class="btn" id="tool-ffmpeg" data-tool="ffmpeg">Get ffmpeg</button>
+          </div>
+          <div class="tool-row">
+            <div>
+              <strong translate="no">yt-dlp</strong>
+              <div class="meta">Downloads from YouTube and more than a thousand other video sites.</div>
+              <div class="meta tool-status" id="tool-ytdlp-status" translate="no"></div>
+            </div>
+            <button type="button" class="btn" id="tool-ytdlp" data-tool="ytdlp">Get yt-dlp</button>
+          </div>
+          <p class="error" id="tool-error" role="alert"></p>
+          <p class="meta">Only download videos you have the right to; some sites forbid downloading in their terms of use.</p>
+        </div>
+        <div class="tab-panel" data-panel="history" hidden>
+          <div class="grid2">
+            <label class="field">
+              <span>Link history: clear automatically</span>
+              <select id="set-history">
+                <option value="off">Don't keep history</option>
+                <option value="onExit">When Bright Downloader closes</option>
+                <option value="day">After 1 day</option>
+                <option value="week">After 7 days</option>
+                <option value="month">After 30 days</option>
+                <option value="forever">Never</option>
+              </select>
+            </label>
+          </div>
+          <div class="row-end">
+            <button type="button" class="btn" id="set-clear-history">Clear link history now</button>
+            <span class="meta" id="set-history-note"></span>
+          </div>
+        </div>
+        <div class="tab-panel" data-panel="scheduler" hidden>
+          <fieldset class="sched">
+            <legend><label class="check"><input type="checkbox" id="sch-on" /> Enable scheduler</label></legend>
+            <p class="meta">Downloads added with <em>Download Later</em> start at the start time and pause at the stop time.</p>
+            <div class="grid2">
+              <label class="field">
+                <span>Start at</span>
+                <input id="sch-start" type="time" />
+              </label>
+              <label class="field">
+                <span>Stop at (optional)</span>
+                <input id="sch-stop" type="time" />
+              </label>
+            </div>
+            <div class="days" id="sch-days"></div>
+          </fieldset>
+          <div class="grid2">
+            <label class="field">
+              <span>When all downloads finish</span>
+              <select id="set-when-done">
+                <option value="nothing">Do nothing</option>
+                <option value="exit">Quit Bright Downloader</option>
+                <option value="sleep">Sleep</option>
+                <option value="hibernate">Hibernate</option>
+                <option value="shutdown">Shut down the computer</option>
+                <option value="run">Run a program</option>
+              </select>
+            </label>
+            <label class="field" id="set-program-field">
+              <span>Program to run</span>
+              <input id="set-program" type="text" spellcheck="false" placeholder='"C:\Tools\backup.exe" --quiet' />
+            </label>
+          </div>
+          <p class="meta">Quit, sleep, hibernate and shut down wait 30 seconds so you can cancel.</p>
+        </div>
+        <div class="actions">
+          <button value="cancel" class="btn">Cancel</button>
+          <button value="ok" class="btn primary">Save</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="dlg-update" class="modal">
+      <form method="dialog" id="form-update">
+        <h2>A new version is available</h2>
+        <p id="upd-text"></p>
+        <h3 class="notes-title">What's new</h3>
+        <div class="notes" id="upd-notes" translate="no"></div>
+        <p class="meta" id="upd-how">Updating takes about a minute: Bright Downloader downloads the new version, checks it, closes, installs it and opens again by itself. Running downloads continue afterwards.</p>
+        <div id="upd-progress" hidden>
+          <div class="bar"><i id="upd-bar" style="width: 0%"></i></div>
+          <p class="meta" id="upd-status"></p>
+        </div>
+        <p class="error" id="upd-error" role="alert"></p>
+        <div class="actions">
+          <button type="button" class="btn" id="upd-skip">Skip this version</button>
+          <span class="grow"></span>
+          <button type="button" class="btn" id="upd-later">Later</button>
+          <button type="submit" class="btn primary" id="upd-go">Update now</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="dlg-whatsnew" class="modal">
+      <form method="dialog">
+        <h2 id="new-title"></h2>
+        <h3 class="notes-title">What's new</h3>
+        <div class="notes" id="new-notes" translate="no"></div>
+        <div class="actions">
+          <button type="button" class="btn" id="new-page">See all releases</button>
+          <span class="grow"></span>
+          <button value="ok" class="btn primary">Got it</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="dlg-about" class="modal narrow">
+      <form method="dialog">
+        <h2>About Bright Downloader</h2>
+        <p id="about-version"></p>
+        <p class="meta">A free, open-source download manager by BrightPixel.</p>
+        <p class="meta" id="about-repo" translate="no"></p>
+        <div class="actions">
+          <button type="button" class="btn" id="about-repo-btn">Open on GitHub</button>
+          <button value="ok" class="btn primary">Close</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

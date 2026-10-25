@@ -1,0 +1,95 @@
+{
+  "extName": {
+    "message": "تكامل Bright Downloader"
+  },
+  "extDescription": {
+    "message": "إرسال تنزيلات المتصفح ومقاطع الفيديو في صفحات الويب (HLS وDASH ومواقع الفيديو) إلى مدير التنزيل Bright Downloader."
+  },
+  "menuDownload": {
+    "message": "التنزيل باستخدام Bright Downloader"
+  },
+  "appNotRunning": {
+    "message": "Bright Downloader لا يعمل"
+  },
+  "appRefused": {
+    "message": "رفضه Bright Downloader (HTTP $1)"
+  },
+  "checking": {
+    "message": "جارٍ الفحص…"
+  },
+  "connected": {
+    "message": "متصل · v$1"
+  },
+  "captureDownloads": {
+    "message": "التقاط التنزيلات من هذا المتصفح"
+  },
+  "captureAll": {
+    "message": "التقاط كل أنواع الملفات"
+  },
+  "showButton": {
+    "message": "إظهار زر تنزيل على مقاطع الفيديو"
+  },
+  "fileTypes": {
+    "message": "أنواع الملفات المراد التقاطها"
+  },
+  "minSize": {
+    "message": "تجاهل الملفات الأصغر من (ك.ب، 0 = بلا حد)"
+  },
+  "videosHere": {
+    "message": "مقاطع الفيديو في هذه الصفحة"
+  },
+  "hint": {
+    "message": "انقر بزر الماوس الأيمن على أي رابط واختر \"التنزيل باستخدام Bright Downloader\" لإرساله يدويًا."
+  },
+  "liveStream": {
+    "message": "بث مباشر"
+  },
+  "stream": {
+    "message": "بث"
+  },
+  "streamN": {
+    "message": "بث $1"
+  },
+  "streamQualities": {
+    "message": "بث · $1 جودات"
+  },
+  "download": {
+    "message": "تنزيل"
+  },
+  "sentShort": {
+    "message": "تم الإرسال ✓"
+  },
+  "failed": {
+    "message": "فشل"
+  },
+  "buttonLabel": {
+    "message": "تنزيل هذا الفيديو"
+  },
+  "buttonTitle": {
+    "message": "تنزيل هذا الفيديو باستخدام Bright Downloader"
+  },
+  "thisVideo": {
+    "message": "هذا الفيديو"
+  },
+  "liveRecord": {
+    "message": "مباشر (يسجّل حتى تُوقفه)"
+  },
+  "fromPage": {
+    "message": "من هذه الصفحة (مواقع الفيديو، عبر yt-dlp)"
+  },
+  "sending": {
+    "message": "جارٍ الإرسال…"
+  },
+  "sent": {
+    "message": "أُرسل إلى Bright Downloader ✓"
+  },
+  "inBrowser": {
+    "message": "جارٍ التنزيل في المتصفح"
+  },
+  "unreachable": {
+    "message": "تعذّر الوصول إلى Bright Downloader"
+  },
+  "nothingYet": {
+    "message": "لا يوجد ما يمكن تنزيله بعد. شغّل الفيديو ثم حاول مرة أخرى. لا يمكن تنزيل مقاطع الفيديو المحمية (DRM)."
+  }
+}

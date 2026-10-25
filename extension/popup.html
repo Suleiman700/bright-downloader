@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Bright Downloader</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header>
+      <img src="icons/32.png" alt="" width="20" height="20" />
+      <strong>Bright Downloader</strong>
+      <span id="status" class="status" data-i18n="checking">Checking…</span>
+    </header>
+    <label class="row"><input type="checkbox" id="enabled" /> <span data-i18n="captureDownloads">Capture downloads from this browser</span></label>
+    <label class="row"><input type="checkbox" id="captureAll" /> <span data-i18n="captureAll">Capture every file type</span></label>
+    <label class="row"><input type="checkbox" id="showVideoButton" /> <span data-i18n="showButton">Show a download button on videos</span></label>
+    <label class="col">
+      <span data-i18n="fileTypes">File types to capture</span>
+      <textarea id="extensions" rows="4" spellcheck="false"></textarea>
+    </label>
+    <label class="col">
+      <span data-i18n="minSize">Skip files smaller than (KB, 0 = no limit)</span>
+      <input type="number" id="minSizeKb" min="0" />
+    </label>
+    <section id="media" hidden>
+      <span class="title" data-i18n="videosHere">Videos on this page</span>
+      <ul id="media-list"></ul>
+    </section>
+    <p class="hint" data-i18n="hint">Right-click any link and choose "Download with Bright Downloader" to send it manually.</p>
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>

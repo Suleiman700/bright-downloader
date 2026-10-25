@@ -1,0 +1,59 @@
+:root {
+  --bg: #ffffff;
+  --text: #1c2330;
+  --muted: #667085;
+  --border: #d9dee7;
+  --ok: #16a34a;
+  --err: #dc2626;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1b1f26;
+    --text: #e6e9ef;
+    --muted: #8b93a3;
+    --border: #2f3542;
+    --ok: #34c46b;
+    --err: #f05252;
+    color-scheme: dark;
+  }
+}
+body {
+  width: 300px;
+  margin: 0;
+  padding: 12px 14px;
+  background: var(--bg);
+  color: var(--text);
+  font: 13px/1.4 "Segoe UI", system-ui, sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+header { display: flex; align-items: center; gap: 8px; }
+.status { margin-left: auto; font-size: 12px; color: var(--muted); }
+.status.ok { color: var(--ok); }
+.status.off { color: var(--err); }
+.row { display: flex; align-items: center; gap: 8px; }
+.col { display: flex; flex-direction: column; gap: 4px; }
+.col span { color: var(--muted); font-size: 12px; }
+textarea, input[type="number"] {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  resize: vertical;
+}
+.hint { margin: 0; color: var(--muted); font-size: 12px; }
+#media { display: flex; flex-direction: column; gap: 4px; }
+#media[hidden] { display: none; }
+#media .title { color: var(--muted); font-size: 12px; }
+#media-list { list-style: none; margin: 0; padding: 0; max-height: 180px; overflow-y: auto; border: 1px solid var(--border); border-radius: 6px; }
+#media-list li { display: flex; align-items: center; gap: 8px; padding: 5px 8px; }
+#media-list li + li { border-top: 1px solid var(--border); }
+#media-list span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#media-list button { flex-shrink: 0; padding: 3px 9px; border: 1px solid var(--border); border-radius: 5px; background: transparent; color: var(--text); font: inherit; font-size: 12px; cursor: pointer; }
+#media-list button:hover:not(:disabled) { border-color: #2563eb; color: #2563eb; }

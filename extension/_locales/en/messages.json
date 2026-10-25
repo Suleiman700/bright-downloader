@@ -1,0 +1,95 @@
+{
+  "extName": {
+    "message": "Bright Downloader Integration"
+  },
+  "extDescription": {
+    "message": "Send browser downloads and videos on web pages (HLS, DASH and video sites) to the Bright Downloader download manager."
+  },
+  "menuDownload": {
+    "message": "Download with Bright Downloader"
+  },
+  "appNotRunning": {
+    "message": "Bright Downloader is not running"
+  },
+  "appRefused": {
+    "message": "Bright Downloader refused it (HTTP $1)"
+  },
+  "checking": {
+    "message": "Checking…"
+  },
+  "connected": {
+    "message": "Connected · v$1"
+  },
+  "captureDownloads": {
+    "message": "Capture downloads from this browser"
+  },
+  "captureAll": {
+    "message": "Capture every file type"
+  },
+  "showButton": {
+    "message": "Show a download button on videos"
+  },
+  "fileTypes": {
+    "message": "File types to capture"
+  },
+  "minSize": {
+    "message": "Skip files smaller than (KB, 0 = no limit)"
+  },
+  "videosHere": {
+    "message": "Videos on this page"
+  },
+  "hint": {
+    "message": "Right-click any link and choose \"Download with Bright Downloader\" to send it manually."
+  },
+  "liveStream": {
+    "message": "Live stream"
+  },
+  "stream": {
+    "message": "Stream"
+  },
+  "streamN": {
+    "message": "Stream $1"
+  },
+  "streamQualities": {
+    "message": "Stream · $1 qualities"
+  },
+  "download": {
+    "message": "Download"
+  },
+  "sentShort": {
+    "message": "Sent ✓"
+  },
+  "failed": {
+    "message": "Failed"
+  },
+  "buttonLabel": {
+    "message": "Download this video"
+  },
+  "buttonTitle": {
+    "message": "Download this video with Bright Downloader"
+  },
+  "thisVideo": {
+    "message": "This video"
+  },
+  "liveRecord": {
+    "message": "live (records until you stop it)"
+  },
+  "fromPage": {
+    "message": "From this page (video sites, via yt-dlp)"
+  },
+  "sending": {
+    "message": "Sending…"
+  },
+  "sent": {
+    "message": "Sent to Bright Downloader ✓"
+  },
+  "inBrowser": {
+    "message": "Downloading in the browser"
+  },
+  "unreachable": {
+    "message": "Could not reach Bright Downloader"
+  },
+  "nothingYet": {
+    "message": "Nothing to download yet. Start playing the video, then try again. Protected (DRM) videos can't be downloaded."
+  }
+}

@@ -1,0 +1,63 @@
+# Push a tag such as v0.2.0 (it must match `version` in Cargo.toml) to build
+# the Windows installer and create a DRAFT release with it and SHA256SUMS.txt.
+# Edit the notes if you like, then press "Publish release": only then do
+# installed copies see the update and offer it to their users.
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check that the tag matches the version
+        shell: bash
+        run: |
+          version=$(grep -m1 '^version = ' Cargo.toml | cut -d'"' -f2)
+          if [ "v$version" != "$GITHUB_REF_NAME" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME does not match version $version in Cargo.toml"
+            exit 1
+          fi
+          echo "VERSION=$version" >> "$GITHUB_ENV"
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+
+      - run: pnpm install --frozen-lockfile
+      - run: cargo test --workspace
+      - run: pnpm tauri build --bundles nsis
+
+      # GitHub turns spaces in asset names into dots, so give the installer a
+      # name without spaces; SHA256SUMS.txt must list the name users download.
+      - name: Name the installer and write its checksum
+        shell: bash
+        run: |
+          mkdir out
+          cp target/release/bundle/nsis/*-setup.exe "out/Bright-Downloader_${VERSION}_x64-setup.exe"
+          cd out
+          sha256sum *-setup.exe > SHA256SUMS.txt
+          cat SHA256SUMS.txt
+
+      - name: Create the draft release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" out/* \
+            --draft \
+            --title "Bright Downloader $VERSION" \
+            --notes-file RELEASE_NOTES.md

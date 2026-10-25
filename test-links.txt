@@ -1,0 +1,74 @@
+# Bright Downloader test links
+# Checked on 2026-10-25. Copy a link, open "Add URL", and it is pasted for you.
+# Lines starting with # are notes.
+
+# ---------- Speed / multi-connection (resume supported) ----------
+# Small: finishes almost instantly
+https://proof.ovh.net/files/1Mb.dat
+# 10 MB
+https://proof.ovh.net/files/10Mb.dat
+# 100 MB: good for watching the per-connection bar
+https://proof.ovh.net/files/100Mb.dat
+https://ash-speed.hetzner.com/100MB.bin
+# 1 GB: long enough to test Stop / Resume / closing the app mid-download
+https://proof.ovh.net/files/1Gb.dat
+https://ash-speed.hetzner.com/1GB.bin
+
+# ---------- LARGE FILES ----------
+# Check free disk space first: Bright Downloader reserves the full size on disk as soon
+# as the download starts. Good for long Stop / Resume / quit-and-reopen tests.
+
+# Real-world ISOs (Compressed category)
+# Fedora 44 Workstation, 2.7 GB: redirects to a mirror near you
+https://download.fedoraproject.org/pub/fedora/linux/releases/44/Workstation/x86_64/iso/Fedora-Workstation-Live-44-1.7.x86_64.iso
+# Debian 13 DVD, 3.7 GB
+https://cdimage.debian.org/debian-cd/current/amd64/iso-dvd/debian-13.7.0-amd64-DVD-1.iso
+
+# 10 GB test files (General category). Different servers/countries, so you
+# can compare speeds or run several at once.
+# OVH, France
+https://proof.ovh.net/files/10Gb.dat
+# Hetzner, Ashburn USA
+https://ash-speed.hetzner.com/10GB.bin
+# Hetzner, Falkenstein Germany
+https://fsn1-speed.hetzner.com/10GB.bin
+# Hetzner, Nuremberg Germany
+https://nbg1-speed.hetzner.com/10GB.bin
+# Hetzner, Helsinki Finland
+https://hel1-speed.hetzner.com/10GB.bin
+
+# 1 GB from another location (Falkenstein)
+https://fsn1-speed.hetzner.com/1GB.bin
+
+# ---------- Categories (each should land in its own folder) ----------
+# Video (30 MB)
+https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/1080/Big_Buck_Bunny_1080_10s_30MB.mp4
+# Video via a redirect (21 MB)
+https://download.samplelib.com/mp4/sample-30s.mp4
+# Music (9 MB)
+https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3
+# Documents (13 KB)
+https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf
+# Programs
+https://the.earth.li/~sgtatham/putty/latest/w64/putty.exe
+https://www.7-zip.org/a/7z2408-x64.exe
+
+# ---------- GitHub release assets (redirect to a CDN, resume supported) ----------
+# Compressed (13 MB)
+https://github.com/cli/cli/releases/download/v2.63.0/gh_2.63.0_windows_amd64.zip
+# Compressed (7.8 MB)
+https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.7.1/npp.8.7.1.portable.x64.zip
+# Programs (63 MB)
+https://github.com/git-for-windows/git/releases/download/v2.47.1.windows.1/PortableGit-2.47.1-64-bit.7z.exe
+
+# ---------- Edge cases ----------
+# Size known but NO resume support: should use a single connection, "Resume: Not supported"
+https://speed.cloudflare.com/__down?bytes=25000000
+# Unknown size, no resume (generated on the fly): size shows "Unknown" until done
+https://github.com/tauri-apps/tauri/archive/refs/heads/dev.zip
+# Server picks the file name (Content-Disposition): should save as renamed-by-server.txt
+https://httpbin.org/response-headers?Content-Disposition=attachment%3B%20filename%3D%22renamed-by-server.txt%22
+# Very slow server (200 KB over 20 seconds): good for testing Stop and time-left display
+https://httpbin.org/drip?duration=20&numbytes=200000&code=200
+# 404 Not Found: should fail right away with "HTTP 404", not keep retrying
+https://proof.ovh.net/files/this-file-does-not-exist.dat
